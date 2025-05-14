@@ -41,7 +41,7 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <img src="assets/img/logo.webp" alt="">
                 @* <h1 class="sitename">EasyFolio</h1> *@
@@ -130,9 +130,10 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 position-relative" data-aos="fade-right" data-aos-delay="200">
                         <div class="about-image">
-                            <video class="img-fluid rounded-4" controls loading="lazy">
-                                <source src="assets/img/profile/video.mp4" type="video/mp4">
-                                مرورگر شما از پخش ویدئو پشتیبانی نمی‌کند.
+                            <video class="img-fluid rounded-4" controls>
+                                @* <source src="assets/img/profile/video.mp4" type="video/mp4"> *@
+                                <source src="assets/img/profile/video.webm" type="video/webm">
+                                ویدئویی با فرمت پشتیبانی‌شده یافت نشد.
                             </video>
                         </div>
                     </div>
@@ -364,7 +365,7 @@
             </div>
 
         </section><!-- /Resume Section -->
-        @*  <!-- Portfolio Section -->
+        <!-- Portfolio Section -->
         <section id="portfolio" class="portfolio section">
 
             <!-- Section Title -->
@@ -382,7 +383,7 @@
 
                 <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
 
-                    <div class="portfolio-filters-container" data-aos="fade-up" data-aos-delay="200">
+                 @*    <div class="portfolio-filters-container" data-aos="fade-up" data-aos-delay="200">
                         <ul class="portfolio-filters isotope-filters">
                             <li data-filter="*" class="filter-active">همه دستاورد‌ها</li>
                             <li data-filter=".filter-concrete">محصولات بتنی</li>
@@ -390,123 +391,167 @@
                             <li data-filter=".filter-sustainable">مصالح پایدار</li>
                             <li data-filter=".filter-research">تحقیق و توسعه</li>
                         </ul>
-                    </div>
+                    </div> *@
 
                     <div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
 
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-concrete">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-1.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture8.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-1.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture8.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="portfolio-content">
-                                    <span class="category">محصولات بتنی</span>
-                                    <h3>تولید بتن آماده</h3>
-                                    <p>بتن با مقاومت 55.44 مگاپاسکال با استفاده از ضایعات معدنی.</p>
                                 </div>
                             </div>
                         </div><!-- End Portfolio Item -->
 
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-recycling">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-10.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture9.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-10.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-recycling"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture9.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="portfolio-content">
-                                    <span class="category">پروژه‌های بازیافت</span>
-                                    <h3>بازیافت گل کربنات کلسیم</h3>
-                                    <p>بازیافت 50,000 تن ضایعات کارخانجات قند برای مصالح ساختمانی.</p>
-                                </div>
                             </div>
                         </div><!-- End Portfolio Item -->
-
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-sustainable">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-7.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture10.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-7.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-sustainable"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture10.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="portfolio-content">
-                                    <span class="category">مصالح پایدار</span>
-                                    <h3>بلوک‌های نیوجرسی</h3>
-                                    <p>تولید نیوجرسی با کاهش 2432 تن CO2 در سال.</p>
-                                </div>
                             </div>
                         </div><!-- End Portfolio Item -->
-
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-research">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-4.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture11.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-4.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-research"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture11.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="portfolio-content">
-                                    <span class="category">تحقیق و توسعه</span>
-                                    <h3>تحقیق روی سرباره فولاد</h3>
-                                    <p>توسعه مصالح جدید با همکاری دانشگاه صنعتی اصفهان.</p>
-                                </div>
                             </div>
                         </div><!-- End Portfolio Item -->
-
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-concrete">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-2.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture12.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-2.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture12.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="portfolio-content">
-                                    <span class="category">محصولات بتنی</span>
-                                    <h3>موزاییک پایدار</h3>
-                                    <p>موزاییک با دوام بالا از ضایعات صنعتی.</p>
-                                </div>
                             </div>
                         </div><!-- End Portfolio Item -->
-
-                        <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-sustainable">
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
                             <div class="portfolio-card">
                                 <div class="portfolio-image">
-                                    <img src="assets/img/portfolio/portfolio-11.webp" class="img-fluid" alt="" loading="lazy">
+                                    <img src="assets/img/portfolio/Picture13.webp" class="img-fluid" alt="" loading="lazy">
                                     <div class="portfolio-overlay">
                                         <div class="portfolio-actions">
-                                            <a href="assets/img/portfolio/portfolio-11.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-sustainable"><i class="bi bi-eye"></i></a>
-                                            <a href="portfolio-details.html" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                                            <a href="assets/img/portfolio/Picture13.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="portfolio-content">
-                                    <span class="category">مصالح پایدار</span>
-                                    <h3>مصالح راه‌سازی</h3>
-                                    <p>تولید مصالح مقاوم با کاهش اثرات زیست‌محیطی.</p>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture14.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture14.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item --> <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture15.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture15.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture16.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture16.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture17.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture17.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture20.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture20.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture21.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture21.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <div class="col-lg-4 col-6 portfolio-item isotope-item filter-concrete">
+                            <div class="portfolio-card">
+                                <div class="portfolio-image">
+                                    <img src="assets/img/portfolio/Picture22.webp" class="img-fluid" alt="" loading="lazy">
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-actions">
+                                            <a href="assets/img/portfolio/Picture22.webp" class="glightbox preview-link" data-gallery="portfolio-gallery-concrete"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Portfolio Item -->
+                        <!-- End Portfolio Item -->
 
                     </div><!-- End Portfolio Container -->
 
@@ -514,9 +559,9 @@
 
             </div>
 
-        </section><!-- /Portfolio Section --> 
+        </section><!-- /Portfolio Section -->
         <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials section light-background">
+        @* <section id="testimonials" class="testimonials section light-background">
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
@@ -704,7 +749,7 @@
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                                 <div class="service-item">
                                     <i class="bi bi-recycle icon"></i>
-                                    <h3><a href="service-details.html">بازیافت ضایعات معدنی</a></h3>
+                                    <h3><a href="#">بازیافت ضایعات معدنی</a></h3>
                                     <p>تبدیل ضایعاتی مثل گل کربنات و سرباره به منابع پایدار.</p>
                                 </div>
                             </div><!-- End Service Item -->
@@ -712,7 +757,7 @@
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                                 <div class="service-item">
                                     <i class="bi bi-building icon"></i>
-                                    <h3><a href="service-details.html">تولید بتن پایدار</a></h3>
+                                    <h3><a href="#">تولید بتن پایدار</a></h3>
                                     <p>ساخت بتن آماده با مقاومت بالا و کاهش اثرات کربنی.</p>
                                 </div>
                             </div><!-- End Service Item -->
@@ -720,7 +765,7 @@
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                                 <div class="service-item">
                                     <i class="bi bi-tree icon"></i>
-                                    <h3><a href="service-details.html">مصالح سازگار با محیط‌زیست</a></h3>
+                                    <h3><a href="#">مصالح سازگار با محیط‌زیست</a></h3>
                                     <p>تولید نیوجرسی و موزاییک با کاهش 2432 تن CO2 سالانه.</p>
                                 </div>
                             </div><!-- End Service Item -->
@@ -728,7 +773,7 @@
                             <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                                 <div class="service-item">
                                     <i class="bi bi-book icon"></i>
-                                    <h3><a href="service-details.html">تحقیق و مشاوره</a></h3>
+                                    <h3><a href="#">تحقیق و مشاوره</a></h3>
                                     <p>همکاری با دانشگاه‌ها برای نوآوری در صنعت ساخت‌وساز.</p>
                                 </div>
                             </div><!-- End Service Item -->
