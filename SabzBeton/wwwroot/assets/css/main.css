@@ -20,11 +20,14 @@
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root {
     --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-    --default-color: #0a0f14; /* Default color used for the majority of the text content across the entire website */
-    --heading-color: #0f2943; /* Color for headings, subheadings and title throughout the website */
+    --default-color: #2c3e50; /* Default color used for the majority of the text content across the entire website */
+    --heading-color: #1a252f; /* Color for headings, subheadings and title throughout the website */
     --accent-color: #00be6c; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+    --secondary-accent: #27ae60; /* رنگ فرعی سبز */
     --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
     --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+    --gradient-primary: linear-gradient(135deg, #00be6c 0%, #27ae60 100%);
+    --gradient-secondary: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
@@ -40,8 +43,9 @@
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
 .light-background {
-    --background-color: #faf9fb;
+    --background-color: #f8fdf9;
     --surface-color: #ffffff;
+    background: linear-gradient(135deg, #f8fdf9 0%, #ffffff 100%);
 }
 
 .dark-background {
@@ -175,7 +179,7 @@ h6 {
             font-size: 24px;
             margin: 0;
             padding-left: 5px;
-            font-weight: 500;
+            font-weight: 700;
             color: var(--heading-color);
         }
 
@@ -253,7 +257,7 @@ h6 {
             padding: 18px 15px;
             font-size: 16px;
             font-family: var(--nav-font);
-            font-weight: 400;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -755,30 +759,50 @@ section,
     font-weight: 500;
     border-radius: 50px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
     .hero .cta-buttons .btn.btn-primary {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
+        background: var(--gradient-primary);
+        border: none;
         color: var(--contrast-color);
     }
 
         .hero .cta-buttons .btn.btn-primary:hover {
-            background-color: color-mix(in srgb, var(--accent-color), transparent 15%);
-            border-color: color-mix(in srgb, var(--accent-color), transparent 15%);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #27ae60 0%, #00be6c 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 190, 108, 0.3);
         }
 
     .hero .cta-buttons .btn.btn-outline {
-        border: 2px solid color-mix(in srgb, var(--accent-color), transparent 70%);
+        border: 2px solid var(--accent-color);
         color: var(--accent-color);
         background: transparent;
+        position: relative;
     }
 
+        .hero .cta-buttons .btn.btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
         .hero .cta-buttons .btn.btn-outline:hover {
-            background-color: var(--accent-color);
             color: var(--contrast-color);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 190, 108, 0.2);
+        }
+
+        .hero .cta-buttons .btn.btn-outline:hover::before {
+            left: 0;
         }
 
 .hero .hero-stats {
@@ -897,59 +921,57 @@ section,
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     }
 
-.about .about-content {
-    padding-left: 2rem;
-}
-
-@media (max-width: 991.98px) {
-    .about .about-content {
-        padding-left: 0;
-        margin-top: 3rem;
-    }
-}
-
 .about .about-content .subtitle {
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     color: var(--accent-color);
     margin-bottom: 1rem;
     display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .about .about-content h2 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: 800;
     margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: var(--heading-color);
 }
 
 .about .about-content .lead {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.6;
     color: color-mix(in srgb, var(--default-color), transparent 25%);
 }
 
 .about .personal-info {
     margin-top: 2rem;
-    padding: 2rem;
-    background-color: var(--surface-color);
-    border-radius: 1rem;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    padding: 0; /* حذف padding */
+    background-color: transparent; /* حذف بک‌گراند سفید */
+    border-radius: 0; /* حذف border-radius */
+    box-shadow: none; /* حذف سایه */
 }
 
     .about .personal-info .info-item {
         display: flex;
         flex-direction: row; /* تغییر جهت به افقی */
-        justify-content: flex-end; /* تراز به راست */
+        justify-content: flex-start; /* تغییر تراز به چپ برای تمام عرض */
         gap: 1rem; /* فاصله بین آیتم‌ها */
+        margin-bottom: 1rem; /* اضافه کردن فاصله بین آیتم‌ها */
     }
 
         .about .personal-info .info-item .label {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            font-weight: 500;
             color: color-mix(in srgb, var(--default-color), transparent 40%);
             order: 2; /* تغییر ترتیب نمایش */
         }
 
         .about .personal-info .info-item .value {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1rem;
             color: var(--heading-color);
             order: 1; /* تغییر ترتیب نمایش */
         }
@@ -966,54 +988,141 @@ section,
     }
 
     .about .signature .signature-info h4 {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
+        font-weight: 700;
         margin-bottom: 0.25rem;
+        color: var(--heading-color);
     }
 
     .about .signature .signature-info p {
-        font-size: 0.875rem;
+        font-size: 1rem;
+        font-weight: 500;
         color: color-mix(in srgb, var(--default-color), transparent 40%);
         margin: 0;
     }
+
+/* استایل برای بخش ویدیو */
+.about .about-video {
+    text-align: center;
+}
+
+.about .about-video .video-description {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about .about-video .video-description p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+}
+
+.about .about-video .signature {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-direction: row-reverse;
+}
+
+/* افزایش عرض قسمت درباره ما */
+.about .container {
+    max-width: 1400px; /* افزایش از حداکثر عرض پیش‌فرض */
+}
+
+.about .about-content {
+    padding-right: 0; /* حذف padding چون حالا کل عرض استفاده می‌شود */
+    text-align: center; /* متن وسط‌چین */
+}
+
+@media (max-width: 1400px) {
+    .about .container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .about .about-content {
+        padding-right: 0;
+        margin-top: 3rem;
+        text-align: center; /* در موبایل هم وسط‌چین */
+    }
+}
 
 /*--------------------------------------------------------------
 # Skills Section
 --------------------------------------------------------------*/
 .skills .skill-box {
-    background-color: var(--surface-color);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    background: var(--gradient-secondary);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 190, 108, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
+    .skills .skill-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient-primary);
+    }
+
+    .skills .skill-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 190, 108, 0.15);
+    }
+
     .skills .skill-box h3 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         margin-bottom: 1rem;
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--heading-color);
     }
 
     .skills .skill-box p {
-        font-size: 0.9rem;
-        margin-bottom: 0.8rem;
-        opacity: 0.6;
+        font-size: 1rem;
+        margin-bottom: 1.2rem;
+        color: color-mix(in srgb, var(--default-color), transparent 20%);
+        line-height: 1.6;
     }
 
     .skills .skill-box .progress {
-        background-color: color-mix(in srgb, var(--accent-color), transparent 85%);
+        background-color: rgba(0, 190, 108, 0.1);
         border-radius: 50px;
-        height: 8px;
+        height: 10px;
         margin-top: 5px;
         overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
         .skills .skill-box .progress .progress-bar {
-            background-color: var(--accent-color);
-            height: 100%;
-            position: relative;
+            background: var(--gradient-primary);
             border-radius: 50px;
-            transition: 0.9s;
-            width: 1px;
+            height: 100%;
+            transition: width 1.5s ease-in-out;
+            position: relative;
         }
+
+        .skills .skill-box .progress .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
 
 /*--------------------------------------------------------------
 # Resume Section
@@ -1991,4 +2100,273 @@ section,
 }
 .testimonials .testimonial-item .row {
     flex-direction: row-reverse; /* تغییر جهت به راست به چپ */
+}
+
+/*--------------------------------------------------------------
+# Company Details Section
+--------------------------------------------------------------*/
+.company-details .product-list .product-item {
+    background: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.company-details .product-list .product-item:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 8px 25px rgba(0, 190, 108, 0.15);
+}
+
+.company-details .product-list .product-item h5 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--heading-color);
+}
+
+.company-details .product-list .product-item p {
+    font-size: 1rem;
+    margin-bottom: 0;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.company-details .impact-item {
+    background: var(--gradient-secondary);
+    padding: 2rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 190, 108, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.company-details .impact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.company-details .impact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 190, 108, 0.15);
+}
+
+.company-details .impact-item h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.company-details .impact-item p {
+    font-size: 1rem;
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.company-details .partner-category {
+    background: var(--surface-color);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    border-top: 4px solid var(--accent-color);
+}
+
+.company-details .partner-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 190, 108, 0.15);
+}
+
+.company-details .partner-category h5 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.8rem;
+}
+
+.company-details .partner-category ul li {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.company-details .partner-category ul li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 0.8rem;
+}
+
+.company-details .contact-info-box {
+    background: var(--gradient-secondary);
+    border: 1px solid rgba(0, 190, 108, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.company-details .contact-info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 190, 108, 0.15);
+}
+
+.company-details .contact-item i {
+    display: block;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.company-details .contact-item h5 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.company-details .contact-item p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+@media (max-width: 768px) {
+    .company-details .impact-item h2 {
+        font-size: 2rem;
+    }
+    
+    .company-details .partner-category {
+        margin-bottom: 2rem;
+    }
+}
+
+/*--------------------------------------------------------------
+# Enhanced Animations & Effects
+--------------------------------------------------------------*/
+
+/* Page Loading Animation */
+body {
+    opacity: 0;
+    animation: fadeInBody 1s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInBody {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hero Section Enhanced Animations */
+#hero h1 {
+    animation: slideInRight 1s ease-out, glow 3s ease-in-out infinite alternate;
+}
+
+#hero p {
+    animation: slideInLeft 1s ease-out 0.3s both;
+}
+
+#hero .btn {
+    animation: slideInUp 1s ease-out 0.6s both, buttonPulse 2s infinite;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(24, 166, 82, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(24, 166, 82, 0);
+    }
+}
+
+/* Floating Elements Animation */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Parallax Effect for Background Elements */
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Enhanced Scroll Animations */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-animate.in-view {
+    opacity: 1;
+    transform: translateY(0);
 }
