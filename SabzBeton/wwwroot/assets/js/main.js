@@ -86,13 +86,13 @@
    */
   function aosInit() {
     AOS.init({
-      duration: 600,
+      duration: 450,
       easing: 'ease-in-out',
       once: true,
       mirror: false
     });
   }
-  window.addEventListener('load', aosInit);
+  aosInit();
 
   /**
    * Animate the skills items on reveal

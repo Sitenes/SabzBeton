@@ -55,20 +55,49 @@
       body: formData,
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
-    .then(response => {
-      if( response.ok ) {
-        return response.text();
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+    .then(async response => {
+      const rawText = await response.text();
+      let parsedResponse = null;
+
+      try {
+        parsedResponse = rawText ? JSON.parse(rawText) : null;
+      } catch (error) {
+        parsedResponse = null;
       }
+
+      if (response.ok) {
+        if (parsedResponse && parsedResponse.success === true) {
+          return parsedResponse;
+        }
+
+        if (rawText.trim() === 'OK') {
+          return { success: true, message: 'Your message has been sent.' };
+        }
+
+        throw new Error(parsedResponse?.message || rawText || `Form submission failed from: ${action}`);
+      }
+
+      throw new Error(parsedResponse?.message || rawText || `${response.status} ${response.statusText} ${response.url}`);
     })
     .then(data => {
       thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+      const successMessage = thisForm.querySelector('.sent-message');
+      const errorMessage = thisForm.querySelector('.error-message');
+
+      if (successMessage) {
+        successMessage.textContent = data?.message || successMessage.textContent;
+        successMessage.classList.add('d-block');
+      }
+
+      if (errorMessage) {
+        errorMessage.classList.remove('d-block');
+        errorMessage.textContent = '';
+      }
+
+      thisForm.reset();
+
+      if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
+        grecaptcha.reset();
       }
     })
     .catch((error) => {
@@ -78,8 +107,14 @@
 
   function displayError(thisForm, error) {
     thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
+    thisForm.querySelector('.sent-message').classList.remove('d-block');
+
+    const errorBox = thisForm.querySelector('.error-message');
+    if (errorBox) {
+      const message = error && error.message ? error.message : String(error);
+      errorBox.textContent = message;
+      errorBox.classList.add('d-block');
+    }
   }
 
 })();
