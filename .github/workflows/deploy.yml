@@ -10,38 +10,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. گرفتن کد روی GitHub runner
+      # 1. گرفتن کد
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. نصب dotnet روی GitHub runner
+      # 2. نصب .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      # 3. publish روی خود GitHub
+      # 3. Publish (linux-x64 + win-x64 / NOT self-contained)
       - name: Publish
         run: |
-          dotnet publish -c Release -o out
+          dotnet publish -c Release \
+            -r linux-x64 \
+            --no-self-contained \
+            -o out/linux
 
-      # 4. ارسال فایل‌ها به سرور (بدون git)
+          dotnet publish -c Release \
+            -r win-x64 \
+            --no-self-contained \
+            -o out/win
+
+      # 4. ارسال فایل‌ها به سرور (فقط linux)
       - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "out/*"
+          source: "out/linux/*"
           target: "/home/amin/apps/SabzBeton"
 
-      # 5. ریستارت برنامه روی سرور
+      # 5. Restart امن روی سرور
       - name: Restart App
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 20m
           script: |
-            pkill -f SabzBeton || true
-            nohup /home/amin/apps/SabzBeton/SabzBeton > /home/amin/apps/SabzBeton/app.log 2>&1 &
+            set -e
+
+            APP_DIR="/home/amin/apps/SabzBeton"
+            APP_NAME="SabzBeton"
+            PID_FILE="$APP_DIR/app.pid"
+            LOG_FILE="$APP_DIR/app.log"
+
+            echo "Stopping old process..."
+
+            if [ -f "$PID_FILE" ]; then
+              kill $(cat "$PID_FILE") || true
+              rm -f "$PID_FILE"
+            fi
+
+            echo "Starting app..."
+
+            nohup "$APP_DIR/$APP_NAME" > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
+
+            echo "App restarted successfully"
