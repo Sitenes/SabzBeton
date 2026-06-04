@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - main
+      # - main
       - master
 
 jobs:
@@ -18,6 +18,17 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            dotnet-deploy /home/amin/User/Projects/Dotnet/${{ github.event.repository.name }} \
-                          /home/amin/User/Projects/Dotnet/Publish/${{ github.event.repository.name }} \
-                          master
+            set -e
+
+            APP_NAME="${{ github.event.repository.name }}"
+            BASE_DIR="/home/amin/User/Projects/Dotnet"
+
+            SRC_DIR="$BASE_DIR/$APP_NAME"
+            PUBLISH_DIR="$BASE_DIR/Publish/$APP_NAME"
+
+            mkdir -p "$SRC_DIR"
+            mkdir -p "$PUBLISH_DIR"
+
+            echo "Deploying $APP_NAME ..."
+
+            dotnet-deploy "$SRC_DIR" "$PUBLISH_DIR" master
