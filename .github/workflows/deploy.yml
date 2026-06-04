@@ -3,7 +3,6 @@ name: Deploy to Server
 on:
   push:
     branches:
-      # - main
       - master
 
 jobs:
@@ -11,42 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH
+      # 1. گرفتن کد روی GitHub runner
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. نصب dotnet روی GitHub runner
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      # 3. publish روی خود GitHub
+      - name: Publish
+        run: |
+          dotnet publish -c Release -o out
+
+      # 4. ارسال فایل‌ها به سرور (بدون git)
+      - name: Upload to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "out/*"
+          target: "/home/amin/apps/SabzBeton"
+
+      # 5. ریستارت برنامه روی سرور
+      - name: Restart App
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            set -e
-
-            APP_NAME="${{ github.event.repository.name }}"
-            BASE_DIR="/home/amin/User/Projects/Dotnet"
-
-            SRC_DIR="$BASE_DIR/$APP_NAME"
-            PUBLISH_DIR="$BASE_DIR/Publish/$APP_NAME"
-            REPO_URL="https://github.com/Sitenes/$APP_NAME.git"
-
-            mkdir -p "$BASE_DIR"
-            mkdir -p "$PUBLISH_DIR"
-
-            echo "Deploying $APP_NAME ..."
-
-            # اگر repo وجود ندارد clone کن
-            if [ ! -d "$SRC_DIR/.git" ]; then
-              echo "Repo not found, cloning..."
-              git clone "$REPO_URL" "$SRC_DIR"
-            fi
-
-            cd "$SRC_DIR"
-
-            echo "Pulling latest code..."
-            git reset --hard
-            git pull origin master || git pull origin main
-
-            echo "Publishing..."
-            dotnet publish -c Release -o "$PUBLISH_DIR"
-
-            echo "Restarting app..."
-            pkill -f "$APP_NAME" || true
-            nohup "$PUBLISH_DIR/$APP_NAME" > "$PUBLISH_DIR/app.log" 2>&1 &
+            pkill -f SabzBeton || true
+            nohup /home/amin/apps/SabzBeton/SabzBeton > /home/amin/apps/SabzBeton/app.log 2>&1 &
