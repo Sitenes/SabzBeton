@@ -10,25 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. گرفتن سورس
+      # (اختیاری) Checkout
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. نصب .NET
+      # (اختیاری) Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
-      # 3. Publish فقط linux-x64 (بدون self-contained) در مسیر اصلی out
+      # Publish
       - name: Publish
         run: |
-          dotnet publish -c Release \
-            -r linux-x64 \
-            --no-self-contained \
-            -o out
+          dotnet publish -c Release -r linux-x64 --no-self-contained -o out
 
-      # 4. انتقال فایل‌ها به سرور
+      # Upload
       - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -36,9 +33,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "out/*"
-          target: "/home/amin/apps/SabzBeton"
+          target: "/home/amin/User/Projects/Dotnet/Publish/${{ github.event.repository.name }}"
 
-      # 5. اجرای صحیح روی سرور (PID + log)
+      # Restart
       - name: Restart App
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -49,10 +46,14 @@ jobs:
           script: |
             set -e
 
-            APP_DIR="/home/amin/apps/SabzBeton"
-            APP_NAME="SabzBeton"
+            APP_NAME="${{ github.event.repository.name }}"
+            BASE_DIR="/home/amin/User/Projects/Dotnet/Publish"
+            APP_DIR="$BASE_DIR/$APP_NAME"
+
             PID_FILE="$APP_DIR/app.pid"
             LOG_FILE="$APP_DIR/app.log"
+
+            mkdir -p "$APP_DIR"
 
             echo "Stopping old process..."
             if [ -f "$PID_FILE" ]; then
