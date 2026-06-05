@@ -61,8 +61,8 @@ jobs:
               rm -f "$PID_FILE"
             fi
 
-            echo "Starting app..."
-            cd "$APP_DIR"
+            echo "Starting app in " + $APP_DIR/out
+            cd "$APP_DIR/out"
             chmod +x "$APP_NAME"
 
             nohup ./$APP_NAME > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
