@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. گرفتن کد
+      # 1. گرفتن سورس
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -20,30 +20,25 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      # 3. Publish (linux-x64 + win-x64 / NOT self-contained)
+      # 3. Publish فقط linux-x64 (بدون self-contained) در مسیر اصلی out
       - name: Publish
         run: |
           dotnet publish -c Release \
             -r linux-x64 \
             --no-self-contained \
-            -o out/linux
+            -o out
 
-          dotnet publish -c Release \
-            -r win-x64 \
-            --no-self-contained \
-            -o out/win
-
-      # 4. ارسال فایل‌ها به سرور (فقط linux)
+      # 4. انتقال فایل‌ها به سرور
       - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "out/linux/*"
+          source: "out/*"
           target: "/home/amin/apps/SabzBeton"
 
-      # 5. Restart امن روی سرور
+      # 5. اجرای صحیح روی سرور (PID + log)
       - name: Restart App
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -60,14 +55,15 @@ jobs:
             LOG_FILE="$APP_DIR/app.log"
 
             echo "Stopping old process..."
-
             if [ -f "$PID_FILE" ]; then
               kill $(cat "$PID_FILE") || true
               rm -f "$PID_FILE"
             fi
 
             echo "Starting app..."
+            cd "$APP_DIR"
+            chmod +x "$APP_NAME"
 
-            nohup "$APP_DIR/$APP_NAME" > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
+            nohup ./$APP_NAME > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
 
-            echo "App restarted successfully"
+            echo "App started successfully"
