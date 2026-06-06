@@ -44,25 +44,25 @@ namespace SabzBeton.Controllers
 
                 // بررسی reCAPTCHA — توکن را از فیلد g-recaptcha-response که widget به صورت خودکار اضافه می‌کند می‌خوانیم
                 var captchaToken = Request.Form["g-recaptcha-response"].ToString();
-                var isCaptchaValid = await _reCaptchaService.VerifyTokenAsync(captchaToken);
-                if (!isCaptchaValid)
-                {
-                    _logger.LogWarning($"reCAPTCHA verification failed for IP: {userIp}");
-                    return BadRequest(new { success = false, message = "تایید CAPTCHA ناموفق بود. لطفاً دوباره تلاش کنید." });
-                }
+                // var isCaptchaValid = await _reCaptchaService.VerifyTokenAsync(captchaToken);
+                // if (!isCaptchaValid)
+                // {
+                //     _logger.LogWarning($"reCAPTCHA verification failed for IP: {userIp}");
+                //     return BadRequest(new { success = false, message = "تایید CAPTCHA ناموفق بود. لطفاً دوباره تلاش کنید." });
+                // }
 
                 // بررسی محدودیت زمانی (هر 12 ساعت یک بار)
                 if (ipSubmissionTimes.ContainsKey(userIp))
                 {
                     var lastSubmissionTime = ipSubmissionTimes[userIp];
-                    if (DateTime.Now < lastSubmissionTime.AddHours(12))
+                    if (DateTime.Now < lastSubmissionTime.AddMinutes(5))
                     {
-                        var remainingTime = lastSubmissionTime.AddHours(12) - DateTime.Now;
+                        var remainingTime = lastSubmissionTime.AddMinutes(5) - DateTime.Now;
                         _logger.LogWarning($"Rate limit exceeded for IP: {userIp}");
                         return BadRequest(new
                         {
                             success = false,
-                            message = $"شما قبلاً فرم را ارسال کرده‌اید. لطفاً {remainingTime.Hours} ساعت و {remainingTime.Minutes} دقیقه دیگر تلاش کنید."
+                            message = $"شما قبلاً فرم را ارسال کرده‌اید. لطفاً {remainingTime.Minutes}:{remainingTime.Seconds} ثانیه دیگر مجددا تلاش کنید."
                         });
                     }
                 }
