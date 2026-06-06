@@ -23,7 +23,7 @@ jobs:
         run: |
           dotnet publish -c Release -r linux-x64 --no-self-contained -o out
 
-      # Upload  
+      # Upload   
       - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
