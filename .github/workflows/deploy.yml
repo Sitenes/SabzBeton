@@ -63,6 +63,6 @@ jobs:
             cd "$APP_DIR/out"
             chmod +x "$APP_NAME"
 
-            nohup ./$APP_NAME > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
+            ASPNETCORE_URLS=http://127.0.0.1:5000 nohup ./$APP_NAME > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
 
             echo "App started successfully"
