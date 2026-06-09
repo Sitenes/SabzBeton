@@ -5,6 +5,15 @@ on:
     branches:
       - master
 
+env:
+  DOTNET_VERSION: "10.0.x"
+  PUBLISH_COMMAND: "dotnet publish -c Release -r linux-x64 --no-self-contained -o out"
+
+  APP_NAME: "sabzbeton"
+  APP_PORT: "5000"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  BASE_DIR: "/home/amin/User/Projects/Dotnet/Publish"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,14 +25,19 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # Publish
       - name: Publish
         run: |
-          dotnet publish -c Release -r linux-x64 --no-self-contained -o out
+          echo "Running publish command:"
+          echo "${{ env.PUBLISH_COMMAND }}"
+          ${{ env.PUBLISH_COMMAND }}
 
-      # Upload   
+      - name: Debug publish output
+        run: |
+          echo "out directory content:"
+          ls -lah out
+
       - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -31,9 +45,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "out/*"
-          target: "/home/amin/User/Projects/Dotnet/Publish/${{ github.event.repository.name }}"
+          target: "${{ env.BASE_DIR }}/${{ github.event.repository.name }}"
 
-      # Restart
       - name: Restart App
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -42,27 +55,61 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command_timeout: 20m
           script: |
-            set -e
+            set -Eeuo pipefail
+
+            trap '
+              EXIT_CODE=$?
+              echo "========================================="
+              echo "DEPLOY FAILED"
+              echo "Exit Code: $EXIT_CODE"
+              echo "Line: $LINENO"
+              echo "Command: $BASH_COMMAND"
+              echo "========================================="
+              exit $EXIT_CODE
+            ' ERR
 
             APP_NAME="${{ github.event.repository.name }}"
-            BASE_DIR="/home/amin/User/Projects/Dotnet/Publish"
-            APP_DIR="$BASE_DIR/$APP_NAME"
+            APP_NAME="${APP_NAME:-MyApp}"
 
-            PID_FILE="$APP_DIR/app.pid"
+            BASE_DIR="${{ env.BASE_DIR }}"
+            BASE_DIR="${BASE_DIR:-/home/amin/User/Projects/Dotnet/Publish}"
+
+            APP_PORT="${{ env.APP_PORT }}"
+            APP_PORT="${APP_PORT:-5002}"
+
+            ENVIRONMENT="${{ env.ASPNETCORE_ENVIRONMENT }}"
+            ENVIRONMENT="${ENVIRONMENT:-Production}"
+
+            APP_DIR="$BASE_DIR/$APP_NAME"
             LOG_FILE="$APP_DIR/app.log"
+            PID_FILE="$APP_DIR/app.pid"
+
+            echo "APP_DIR=$APP_DIR"
+            echo "APP_PORT=$APP_PORT"
 
             mkdir -p "$APP_DIR"
 
             echo "Stopping old process..."
-            if [ -f "$PID_FILE" ]; then
-              kill $(cat "$PID_FILE") || true
-              rm -f "$PID_FILE"
+            PID=$(lsof -t -i:$APP_PORT || true)
+
+            if [ -n "$PID" ]; then
+              echo "Killing PID: $PID"
+              kill -9 "$PID" || true
+              sleep 3
             fi
 
-            echo "Starting app in " + $APP_DIR/out
             cd "$APP_DIR/out"
+
             chmod +x "$APP_NAME"
 
-            ASPNETCORE_ENVIRONMENT=Production ASPNETCORE_URLS=http://127.0.0.1:5000 nohup ./$APP_NAME > "$LOG_FILE" 2>&1 & echo $! > "$PID_FILE"
+            echo "Starting app..."
 
-            echo "App started successfully"
+            nohup env \
+              ASPNETCORE_ENVIRONMENT="$ENVIRONMENT" \
+              ASPNETCORE_URLS="http://127.0.0.1:$APP_PORT" \
+              ./"$APP_NAME" \
+              > "$LOG_FILE" 2>&1 &
+
+            echo $! > "$PID_FILE"
+
+            echo "Started PID: $(cat $PID_FILE)"
